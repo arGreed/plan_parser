@@ -1,0 +1,9 @@
+select 1;
+select 2;
+select 3;
+select 4;
+create 5;
+create 6;
+update 7;
+delete 8;
+drop 9;
