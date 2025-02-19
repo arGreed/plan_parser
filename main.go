@@ -1,9 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
 
-	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -18,13 +19,22 @@ func dbInit() (*gorm.DB, error) {
 	return db, nil
 }
 
+var filename string = "test_delete_all_comments.txt"
+var Line string = "_____________"
+
 func main() {
-	db, err := dbInit()
+	data, err := os.ReadFile(filename)
 	if err != nil {
-		log.Println("Ошибка инициализации базы данных")
+		log.Println("Ошибка при чтении файла:", err)
 		return
 	}
-	router := gin.Default()
 
-	router.GET(getQueryRoute, getQuery(db))
+	content := string(data)
+	//? Очистка полученного файла от лишних комментариев
+	err = clearQueries(&content, "--")
+	fmt.Println(content)
+	if err != nil {
+		log.Println(err)
+		return
+	}
 }
